@@ -2,15 +2,18 @@
 use Axeldotdev\LaravelApiDoc\Route;
 use Axeldotdev\LaravelApiDoc\Features;
 use Axeldotdev\LaravelApiDoc\Facades\LaravelApiDoc;
+
+$versions = config('api-doc.versions');
+
 @endphp
 
-<nav x-data="{version: null}" class="flex flex-col shrink-0 grow-0 w-72 h-full bg-white shadow overflow-y-auto">
+<nav x-data="{version: {{ count($versions) > 1 ? '\'' . reset($versions) . '\'' : 'null' }}}" class="flex flex-col shrink-0 grow-0 w-72 h-full bg-white shadow overflow-y-auto">
     <x-api-doc::header></x-api-doc::header>
 
-    @if(count(config('api-doc.versions')) > 1)
+    @if(count($versions) > 1)
     <div class="px-6 pt-8">
-        <select class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-            @foreach(config('api-doc.versions') as $version => $path)
+        <select x-model="version" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+            @foreach($versions as $version => $path)
             <option value="{{ $path }}">
                 {{ $version }}
             </option>
@@ -69,11 +72,12 @@ use Axeldotdev\LaravelApiDoc\Facades\LaravelApiDoc;
         @endforeach
         @else
         @foreach(LaravelApiDoc::groups() as $group => $routes)
-        <span class="mt-8 truncate uppercase text-xs font-bold text-gray-400">
+        <span class="mt-8 truncate uppercase text-xs font-bold text-gray-400"
+            x-show="@foreach($routes as $route) @if($loop->index > 0) && @endif version === '{{ $route->version }}' @endforeach">
             {{ __($group) }}
         </span>
         @foreach($routes as $index => $route)
-        <a href="#{{ $index }}" class="mt-4 flex items-center">
+        <a href="#{{ $index }}" class="mt-4 flex items-center" x-show="version === '{{ $route->version }}'">
             <span class="
                 flex
                 justify-center

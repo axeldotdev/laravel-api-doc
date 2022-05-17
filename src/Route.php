@@ -107,6 +107,13 @@ class Route
     public $description;
 
     /**
+     * The route version.
+     *
+     * @return string|null
+     */
+    public $version;
+
+    /**
      * The route uri params.
      *
      * @return \Illuminate\Support\Collection
@@ -167,6 +174,7 @@ class Route
         $method = (new ReflectionClass($this->class_name))->getMethod($this->class_method);
 
         $this->formatDescription($method->getDocComment());
+        $this->determineVersion();
         $this->determineAuthentication();
         $this->determineGroup();
         $this->determineUriParams($method->getParameters());
@@ -203,6 +211,28 @@ class Route
             ->replaceMatches('/\s{2,}/', ' ')
             ->trim()
             ->toString();
+    }
+
+    /**
+     * Determine the route version.
+     *
+     * @return void
+     */
+    protected function determineVersion()
+    {
+        if (count(config('api-doc.versions')) < 2) {
+            return;
+        }
+
+        foreach (config('api-doc.versions') as $path) {
+            if (Str::startsWith("/{$this->uri}", $path)) {
+                $this->version = $path;
+
+                return;
+            }
+        }
+
+        $this->version = null;
     }
 
     /**

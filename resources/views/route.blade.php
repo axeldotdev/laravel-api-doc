@@ -82,7 +82,7 @@
 @endif
 </x-api-doc::content>
 
-<x-api-doc::code>
+<x-api-doc::code id="{{ $route->index }}">
     <x-slot name="curl">
         Curl
     </x-slot>
