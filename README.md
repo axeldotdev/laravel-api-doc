@@ -27,6 +27,22 @@ Optionally, you can publish the views using
 php artisan vendor:publish --tag="laravel-api-doc-views"
 ```
 
+## Features
+
+- Customizable get started view
+- Customizable authentication view
+- Customizable errors view
+- Auto-generated routes views via API routes, controllers, requests, etc.
+- Customizable routes views
+- Versions manager
+- Copy code examples into the clipboard
+
+Coming soon :
+
+- Fields and params example values, enums values, etc.
+- Code examples in Curl, PHP and Javascript
+- Static generator into a HTML file
+
 ## Testing
 
 ```bash
@@ -39,7 +55,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 ## Contributing
 
-Please see [CONTRIBUTING](https://github.com/spatie/.github/blob/main/CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
 
 ## Security Vulnerabilities
 
