@@ -1,3 +1,7 @@
+@php
+$versions = config('api-doc.versions');
+@endphp
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -23,7 +27,7 @@
     </head>
 
     <body class="antialiased font-sans">
-        <div class="overflow-hidden relative flex h-screen">
+        <div x-data="{version: {{ count($versions) > 1 ? '\'' . reset($versions) . '\'' : 'null' }}}" class="overflow-hidden relative flex h-screen">
             <x-api-doc::nav></x-api-doc::nav>
 
             <section class="w-full h-full overflow-y-auto">

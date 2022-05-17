@@ -4,10 +4,9 @@ use Axeldotdev\LaravelApiDoc\Features;
 use Axeldotdev\LaravelApiDoc\Facades\LaravelApiDoc;
 
 $versions = config('api-doc.versions');
-
 @endphp
 
-<nav x-data="{version: {{ count($versions) > 1 ? '\'' . reset($versions) . '\'' : 'null' }}}" class="flex flex-col shrink-0 grow-0 w-72 h-full bg-white shadow overflow-y-auto">
+<nav class="flex flex-col shrink-0 grow-0 w-72 h-full bg-white shadow overflow-y-auto">
     <x-api-doc::header></x-api-doc::header>
 
     @if(count($versions) > 1)
