@@ -13,13 +13,11 @@ class RouteCollection implements IteratorAggregate
     /**
      * Construct the routes collection
      *
-     * @param  string $routes
+     * @param  array  $routes
      * @return void
      */
-    public function __construct($routes)
+    public function __construct(array $routes)
     {
-        $routes = json_decode($routes);
-
         foreach ($routes as $index => $route) {
             $route = new Route($route, $index);
 
@@ -37,7 +35,7 @@ class RouteCollection implements IteratorAggregate
      * @param  string  $path
      * @return \Axeldotdev\LaravelApiDoc\Route
      */
-    public function find($path)
+    public function find(string $path): Route
     {
         return $this->routes[$path];
     }
@@ -47,7 +45,7 @@ class RouteCollection implements IteratorAggregate
      *
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->routes;
     }

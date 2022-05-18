@@ -52,6 +52,23 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Routes paths
+    |--------------------------------------------------------------------------
+    |
+    | These configuration values allow you to specify the routes paths
+    | that you want to include on the doc. It can be useful
+    | to hide some internal routes for example.
+    |
+    | Example: ['api/v1'] ==> ['{route_path}']
+    |
+    */
+
+    'paths' => [
+        'api/v1',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Routes to exclude
     |--------------------------------------------------------------------------
     |

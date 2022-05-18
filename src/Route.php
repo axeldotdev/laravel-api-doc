@@ -2,6 +2,7 @@
 
 namespace Axeldotdev\LaravelApiDoc;
 
+use stdClass;
 use ReflectionClass;
 use ReflectionNamedType;
 use Illuminate\Support\Str;
@@ -155,11 +156,11 @@ class Route
      * @param  int  $index
      * @return void
      */
-    public function __construct($route, $index)
+    public function __construct(stdClass $route, int $index)
     {
         $this->index = $index;
         $this->domain = $route->domain;
-        $this->method = $this->determineMethod($route);
+        $this->determineMethod($route->method);
         $this->uri = $route->uri;
         $this->short_uri = Str::replace(array_merge(config('api-doc.versions'), []), '', "/{$route->uri}");
         $this->name = $route->name;
@@ -184,12 +185,18 @@ class Route
         $this->determineView();
     }
 
-    protected function determineMethod($route)
+    /**
+     * Determine the route method.
+     *
+     * @param  string  $methods
+     * @return void
+     */
+    protected function determineMethod(string $methods): void
     {
-        $methods = explode('|', $route->method);
+        $methods = explode('|', $methods);
         $methods = array_filter($methods, fn ($m) => $m !== 'HEAD');
 
-        return reset($methods);
+        $this->method = reset($methods);
     }
 
     /**
@@ -198,7 +205,7 @@ class Route
      * @param  string  $description
      * @return void
      */
-    protected function formatDescription($description)
+    protected function formatDescription(string $description): void
     {
         $this->description = Str::of($description)
             ->replace("/**\n", '')
@@ -218,7 +225,7 @@ class Route
      *
      * @return void
      */
-    protected function determineVersion()
+    protected function determineVersion(): void
     {
         if (count(config('api-doc.versions')) < 2) {
             return;
@@ -240,7 +247,7 @@ class Route
      *
      * @return void
      */
-    protected function determineAuthentication()
+    protected function determineAuthentication(): void
     {
         if (! $this->middleware) {
             $this->guarded = false;
@@ -259,7 +266,7 @@ class Route
      *
      * @return void
      */
-    protected function determineGroup()
+    protected function determineGroup(): void
     {
         foreach (config('api-doc.groups') as $name => $path) {
             if (Str::startsWith($this->short_uri, $path)) {
@@ -278,7 +285,7 @@ class Route
      * @param  array  $params
      * @return void
      */
-    protected function determineUriParams(array $params)
+    protected function determineUriParams(array $params): void
     {
         if (! $params) {
             return;
@@ -318,7 +325,7 @@ class Route
      *
      * @return void
      */
-    protected function determineQueryParams(array $params)
+    protected function determineQueryParams(array $params): void
     {
         if (! $params) {
             return;
@@ -373,7 +380,7 @@ class Route
      *
      * @return void
      */
-    protected function determineResponseFields(?ReflectionNamedType $return = null)
+    protected function determineResponseFields(?ReflectionNamedType $return = null): void
     {
         if (is_null($return)) {
             return;
@@ -402,7 +409,13 @@ class Route
         }
     }
 
-    protected function determineRequestParamType(array $rules)
+    /**
+     * Determine the request param type.
+     *
+     * @param  array  $rules
+     * @return string
+     */
+    protected function determineRequestParamType(array $rules): string
     {
         $type = 'string';
 
@@ -472,7 +485,7 @@ class Route
      * @param  array  $params
      * @return void
      */
-    protected function determineModels(array $params)
+    protected function determineModels(array $params): void
     {
         if (! $params) {
             return;
@@ -500,7 +513,7 @@ class Route
      *
      * @return void
      */
-    protected function determineView()
+    protected function determineView(): void
     {
         [$group, $method] = explode('.', $this->name);
 

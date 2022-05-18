@@ -3,6 +3,7 @@
 namespace Axeldotdev\LaravelApiDoc;
 
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\View\View;
 
 class LaravelApiDoc
 {
@@ -15,9 +16,15 @@ class LaravelApiDoc
      */
     public function __construct()
     {
-        Artisan::call('route:list --except-vendor --path=api --json');
+        $routes = [];
 
-        $this->routes = new RouteCollection(Artisan::output());
+        foreach (config('api-doc.paths') as $path) {
+            Artisan::call("route:list --except-vendor --path={$path} --json");
+
+            $routes = array_merge($routes, json_decode(Artisan::output()));
+        }
+
+        $this->routes = new RouteCollection($routes);
     }
 
     /**
@@ -25,7 +32,7 @@ class LaravelApiDoc
      *
      * @return \Illuminate\View\View
      */
-    public function getStarted()
+    public function getStarted(): View
     {
         return view('api-doc.get-started');
     }
@@ -35,7 +42,7 @@ class LaravelApiDoc
      *
      * @return \Illuminate\View\View
      */
-    public function authentication()
+    public function authentication(): View
     {
         return view('api-doc.authentication');
     }
@@ -45,7 +52,7 @@ class LaravelApiDoc
      *
      * @return \Illuminate\View\View
      */
-    public function errors()
+    public function errors(): View
     {
         return view('api-doc.errors');
     }
@@ -55,7 +62,7 @@ class LaravelApiDoc
      *
      * @return \Axeldotdev\LaravelApiDoc\RouteCollection
      */
-    public function routes()
+    public function routes(): RouteCollection
     {
         return $this->routes;
     }
@@ -63,9 +70,9 @@ class LaravelApiDoc
     /**
      * Get the route groups array.
      *
-     * @return array
+     * @return array|\Axeldotdev\LaravelApiDoc\RouteCollection
      */
-    public function groups()
+    public function groups(): array|RouteCollection
     {
         if (count(config('api-doc.groups')) < 1) {
             return $this->routes;
