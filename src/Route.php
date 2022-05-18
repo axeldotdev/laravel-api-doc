@@ -296,6 +296,7 @@ class Route
             $reflection = new ReflectionClass($class_name);
             $is_request = $reflection->getParentClass() && in_array($reflection->getParentClass()->getName(), [
                 'Illuminate\Foundation\Http\FormRequest',
+                'Symfony\Component\HttpFoundation\Request',
             ]);
             $is_model = $reflection->getParentClass() && in_array($reflection->getParentClass()->getName(), [
                 'Illuminate\Database\Eloquent\Model',
@@ -342,6 +343,7 @@ class Route
 
             if ($reflection->getParentClass() && in_array($reflection->getParentClass()->getName(), [
                 'Illuminate\Foundation\Http\FormRequest',
+                'Symfony\Component\HttpFoundation\Request',
             ])) {
                 $request = new $class_name();
                 $rules = $request->rules();
