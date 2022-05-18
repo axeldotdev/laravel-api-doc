@@ -7,14 +7,16 @@ window.Alpine = Alpine;
 
 Alpine.start();
 
-Alpine.magic('tooltip', (el) => (message) => {
-    let instance = tippy(el, { content: message, trigger: 'manual' });
+document.addEventListener('alpine:init', () => {
+    Alpine.magic('tooltip', (el) => (message) => {
+        let instance = tippy(el, { content: message, trigger: 'manual' });
 
-    instance.show();
+        instance.show();
 
-    setTimeout(() => {
-        instance.hide();
+        setTimeout(() => {
+            instance.hide();
 
-        setTimeout(() => instance.destroy(), 150);
-    }, 2000);
+            setTimeout(() => instance.destroy(), 150);
+        }, 2000);
+    });
 });
