@@ -54,5 +54,6 @@
         let input = document.querySelector(id);
         input.select();
         document.execCommand('copy');
+        $tooltip('Copied!');
     }
 </script>
