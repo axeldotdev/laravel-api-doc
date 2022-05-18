@@ -49,7 +49,7 @@
     @endif
 </section>
 
-<script defer>
+<script>
     document.addEventListener('alpine:init', () => {
         Alpine.magic('tooltip', (el) => (message) => {
             let instance = tippy(el, { content: message, trigger: 'manual' });
