@@ -72,7 +72,7 @@ $versions = config('api-doc.versions');
         @else
         @foreach(LaravelApiDoc::groups() as $group => $routes)
         <span class="mt-8 truncate uppercase text-xs font-bold text-gray-400"
-            x-show="@foreach($routes as $route) @if($loop->index > 0) && @endif version === '{{ $route->version }}' @endforeach">
+            x-show="@foreach($routes as $route) @if($loop->index > 0) || @endif version === '{{ $route->version }}' @endforeach">
             {{ __($group) }}
         </span>
         @foreach($routes as $index => $route)
