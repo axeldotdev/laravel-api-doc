@@ -19,11 +19,9 @@ $versions = config('api-doc.versions');
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 
-        {{-- <link href="{{ asset(mix('css/doc.css', 'vendor/api-doc')) }}" rel="stylesheet"> --}}
-        <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+        <link href="{{ asset(mix('css/doc.css', 'vendor/api-doc')) }}" rel="stylesheet">
 
-        {{-- <script src="{{ asset(mix('js/doc.js', 'vendor/api-doc')) }}" defer></script> --}}
-        <script src="{{ mix('js/app.js') }}" defer></script>
+        <script src="{{ asset(mix('js/doc.js', 'vendor/api-doc')) }}" defer></script>
     </head>
 
     <body class="antialiased font-sans">
