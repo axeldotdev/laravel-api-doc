@@ -343,7 +343,6 @@ class Route
 
             if ($reflection->getParentClass() && in_array($reflection->getParentClass()->getName(), [
                 'Illuminate\Foundation\Http\FormRequest',
-                'Symfony\Component\HttpFoundation\Request',
             ])) {
                 $request = new $class_name();
                 $rules = $request->rules();
